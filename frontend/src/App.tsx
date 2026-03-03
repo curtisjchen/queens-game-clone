@@ -18,12 +18,16 @@ function useCellSize(size: number) {
 
   useEffect(() => {
     function compute() {
-      // Reserve space for toolbar (~60px), title (~60px), button (~70px), margins (~80px)
-      const reservedHeight = 270;
+      // 1. Increase reserved space slightly to ensure header/footer don't get crowded
+      const reservedHeight = 300; 
       const reservedWidth = 40;
+      
       const maxH = Math.floor((window.innerHeight - reservedHeight) / size);
       const maxW = Math.floor((window.innerWidth  - reservedWidth)  / size);
-      setCellSize(Math.max(28, Math.min(52, maxH, maxW)));
+
+      // 2. CHANGE: Increase the hard cap from 52 to 100
+      // This allows the grid to grow significantly larger on desktop screens
+      setCellSize(Math.max(28, Math.min(100, maxH, maxW)));
     }
     compute();
     window.addEventListener('resize', compute);
@@ -211,8 +215,8 @@ function App() {
     return <div className="loading">Gathering Queens for {size}×{size}…</div>;
 
   // scale: 1.0 at full size (cellSize=52), shrinks proportionally down to ~0.55
-  const scale = cellSize / 52;
-  const iconSize = Math.max(14, cellSize * 0.55);
+  const scale = Math.min(cellSize / 52, 1);
+  const iconSize = Math.max(10, cellSize * 0.55);
 
   const ui = {
     toolbar: {
