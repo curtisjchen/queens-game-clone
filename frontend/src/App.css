@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;800&display=swap');
+
+* { box-sizing: border-box; }
+
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+  margin: 0;
+  color: #e0e0e0;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  padding: 20px;
+}
+
+/* ---- TOOLBAR ---- */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #1c1c1c;
+  padding: 12px 24px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  border: 1px solid #2a2a2a;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.toolbar > * {
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper select {
+  padding: 7px 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  border: 1.5px solid #333;
+  border-radius: 8px;
+  background: #252525;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s;
+  line-height: 1;
+  vertical-align: middle;
+}
+.select-wrapper select:hover { border-color: #555; }
+
+.timer-display {
+  font-family: 'DM Mono', 'Courier New', monospace;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #a78bfa;
+  min-width: 56px;
+  letter-spacing: 1px;
+  line-height: 1;
+  flex: 1;
+  text-align: center;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ccc;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.toggle-label input { accent-color: #a78bfa; cursor: pointer; }
+
+.undo-btn {
+  background: none;
+  border: 1.5px solid #333;
+  border-radius: 8px;
+  color: #aaa;
+  font-size: 1.1rem;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.undo-btn:hover:not(:disabled) {
+  border-color: #666;
+  color: #fff;
+  background: #2a2a2a;
+}
+.undo-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* ---- TITLE ---- */
+.title {
+  font-family: 'DM Sans', sans-serif;
+  margin: 0 0 18px;
+  color: #fff;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+}
+
+/* ---- GRID ---- */
+.grid-container {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.grid {
+  display: grid;
+  gap: 0;
+}
+
+.cell {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: filter 0.1s;
+  position: relative;
+}
+
+.cell:hover { filter: brightness(1.1); }
+
+/* Queen icon — normal state */
+.queen-icon {
+  font-size: 1.65rem;
+  color: #1a1a2e;
+  line-height: 1;
+  pointer-events: none;
+  transition: transform 0.15s, color 0.15s;
+}
+
+/* X icon */
+.x-icon {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* Valid queen placement — subtle pulse */
+.cell--queen .queen-icon {
+  color: #1a1a2e;
+  animation: pop 0.2s ease;
+}
+
+/* Conflicting queen — red tint + shake */
+.cell--conflict {
+  animation: shake 0.35s ease;
+}
+.cell--conflict .queen-icon {
+  color: #dc2626;
+}
+
+/* ---- VICTORY ---- */
+.victory {
+  color: #4ade80;
+  margin-bottom: 14px;
+  font-weight: 800;
+  font-size: 1.3rem;
+  text-shadow: 0 0 14px rgba(74, 222, 128, 0.4);
+  animation: fadein 0.4s ease;
+}
+
+/* ---- BUTTONS ---- */
+.new-game-btn {
+  margin-top: 28px;
+  padding: 13px 36px;
+  font-size: 1rem;
+  font-weight: 800;
+  font-family: 'DM Sans', sans-serif;
+  background: #222;
+  color: #fff;
+  border: 1.5px solid #383838;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+}
+.new-game-btn:hover {
+  background: #2e2e2e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+}
+
+/* ---- LOADING ---- */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #a78bfa;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes pop {
+  0%   { transform: scale(0.6); }
+  60%  { transform: scale(1.2); }
+  100% { transform: scale(1.0); }
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
