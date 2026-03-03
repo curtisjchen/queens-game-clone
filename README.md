@@ -2,12 +2,21 @@
 
 A browser-based puzzle game inspired by LinkedIn's Queens. Place one queen in each row, column, and colored region — no two queens can touch, even diagonally.
 
+![alt text](/example.png "Queens Game App Example")
+
 ## Prerequisites
 
 - Python 3.8+
 - Node.js 18+
 
 ## Setup
+
+### Requirements
+
+```bash
+pip install uv
+uv sync
+```
 
 ### Backend
 
